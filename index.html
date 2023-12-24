@@ -20,8 +20,9 @@
 
         textarea {
             padding: 15px;
-            margin-bottom: 15px;
-            width: 382px;
+            /* margin-bottom: 15px; */
+            width: 212px;
+            height: 100px;
             resize: none;
             box-sizing: border-box;
             border: 2px solid #cccccc;
@@ -75,26 +76,66 @@
         .wuli {
             color: #e74c3c;
             margin-bottom: 5px;
+            width: 198px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         .fashu {
             color: #3498db;
             margin-bottom: 5px;
+            width: 198px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         .fengyin {
             color: #9b59b6;
             margin-bottom: 5px;
+            width: 198px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         .huifu {
             color: #27ae60;
             margin-bottom: 5px;
+            width: 198px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         .weizhi {
             color: #555;
             margin-bottom: 5px;
+            width: 198px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         .bottom-center-text {
@@ -106,13 +147,94 @@
             width: 100%;
             padding: 10px;
         }
+
+        .color-container {
+            padding: 15px;
+            margin-left: 15px;
+            width: 120px;
+            height: 66px;
+            border: 2px solid #cccccc;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .color-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .red-color-button {
+            background-color: #fadbd8;
+            margin-top: 10px;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .blue-color-button {
+            background-color: #d6eaf8;
+            margin-top: 10px;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .purple-color-button {
+            background-color: #ebdef0;
+            margin-top: 10px;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .green-color-button {
+            background-color: #d4efdf;
+            margin-top: 10px;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .yellow-color-button {
+            background-color: #fff7cc;
+            margin-top: 10px;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 
 <body>
     <h1>梦幻西游比武大会阵营分配</h1>
-    <textarea id="inputText" placeholder="1. 名字-门派-阵营
-2. ......" oninput="showResults()"></textarea>
+    <div id="result-container">
+        <textarea id="inputText" placeholder="1. 名字-门派-阵营
+2. ......
+3. ......" oninput="showResults()"></textarea>
+        <div class="color-container">
+            <div class="color-title">色盘分组</div>
+            <div class="red-color-button" onclick="setColor(this)"></div>
+            <div class="blue-color-button" onclick="setColor(this)"></div>
+            <div class="purple-color-button" onclick="setColor(this)"></div>
+            <div class="green-color-button" onclick="setColor(this)"></div>
+            <div class="yellow-color-button" onclick="setColor(this)"></div>
+        </div>
+    </div>
 
     <div id="result-container">
         <div class="faction-container" style="display: none;">
@@ -169,6 +291,42 @@
             huifu: ["回复", "奶神木林", "NSML", "奶神木", "NSM", "奶SML", "奶SM", "奶天机城", "NTJC", "奶天机", "NTJ", "奶TJC", "奶TJ", "奶五庄观", "NWZG", "奶五庄", "NWZ", "奶WZG", "奶WZ", "化生寺", "HSS", "化生", "HS", "医生", "ES", "普陀山", "PTS", "普陀", "PT", "无底洞", "WDD", "无底", "WD"],
         }
 
+        // 颜色按钮
+        const colorButtons = {
+            red: document.querySelector('.red-color-button'),
+            blue: document.querySelector('.blue-color-button'),
+            purple: document.querySelector('.purple-color-button'),
+            green: document.querySelector('.green-color-button'),
+            yellow: document.querySelector('.yellow-color-button'),
+        }
+
+        const colors = {
+            selected: {
+                red: '#e74c3c',
+                blue: '#3498db',
+                purple: '#9b59b6',
+                green: '#27ae60',
+                yellow: '#ffd700',
+            },
+            unselected: {
+                red: '#fadbd8',
+                blue: '#d6eaf8',
+                purple: '#ebdef0',
+                green: '#d4efdf',
+                yellow: '#fff7cc',
+            },
+            reality: {
+                red: '#fce9e7',
+                blue: '#e6f2fb',
+                purple: '#f3ebf6',
+                green: '#e5f5ec',
+                yellow: '#fffae0',
+            },
+        }
+
+        // 选中颜色
+        let selectedColor = '';
+
         function showResults() {
             // 初始化数据
             for (const factionCode in factionContainers) {
@@ -221,7 +379,7 @@
                 shibaiArray.forEach(character => {
                     const characterElement = document.createElement("div");
                     characterElement.textContent = character;
-                    characterElement.classList.add("weizhi");
+                    // characterElement.classList.add("weizhi");
                     shibaiContainer.appendChild(characterElement);
                 });
                 shibaiContainer.parentNode.style.display = "block";
@@ -278,6 +436,12 @@
                 const characterElement = document.createElement("div");
                 characterElement.textContent = nickname;
                 characterElement.classList.add(occupationType);
+                characterElement.addEventListener('click', function () {
+                    if (selectedColor) {
+                        if (characterElement.style.backgroundColor === '') characterElement.style.backgroundColor = selectedColor;
+                        else characterElement.style.backgroundColor = '';
+                    }
+                });
                 container.appendChild(characterElement);
             });
         }
@@ -289,6 +453,15 @@
             huifu: "回复",
             weizhi: "未知",
         };
+
+        function setColor(element) {
+            for (const colorCode in colorButtons) {
+                if (colorButtons[colorCode] === element) {
+                    element.style.backgroundColor = colors['selected'][colorCode];
+                    selectedColor = colors['reality'][colorCode];
+                } else colorButtons[colorCode].style.backgroundColor = colors['unselected'][colorCode];
+            }
+        }
     </script>
 </body>
 
