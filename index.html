@@ -116,19 +116,19 @@
 
     <div id="result-container">
         <div class="faction-container" style="display: none;">
-            <h2>青龙阵营</h2>
+            <h2 id="qinglongTitle">青龙阵营 0人</h2>
             <div id="qinglongResults" class="occupation-container"></div>
         </div>
         <div class="faction-container" style="display: none;">
-            <h2>白虎阵营</h2>
+            <h2 id="baihuTitle">白虎阵营 0人</h2>
             <div id="baihuResults" class="occupation-container"></div>
         </div>
         <div class="faction-container" style="display: none;">
-            <h2>朱雀阵营</h2>
+            <h2 id="zhuqueTitle">朱雀阵营 0人</h2>
             <div id="zhuqueResults" class="occupation-container"></div>
         </div>
         <div class="faction-container" style="display: none;">
-            <h2>玄武阵营</h2>
+            <h2 id="xuanwuTitle">玄武阵营 0人</h2>
             <div id="xuanwuResults" class="occupation-container"></div>
         </div>
         <div class="faction-container" style="display: none;">
@@ -142,6 +142,21 @@
     </div>
 
     <script>
+        const mapOccupationName = {
+            wuli: "物理",
+            fashu: "法术",
+            fengyin: "封印",
+            huifu: "回复",
+            weizhi: "未知",
+        };
+
+        const mapFactionName = {
+            qinglong: '青龙',
+            baihu: '白虎',
+            zhuque: '朱雀',
+            xuanwu: '玄武',
+        };
+
         // 阵营容器
         const factionContainers = {
             qinglong: document.getElementById("qinglongResults"),
@@ -149,6 +164,14 @@
             zhuque: document.getElementById("zhuqueResults"),
             xuanwu: document.getElementById("xuanwuResults"),
         };
+
+        // 阵营标题
+        const factionTitles = {
+            qinglong: document.getElementById("qinglongTitle"),
+            baihu: document.getElementById("baihuTitle"),
+            zhuque: document.getElementById("zhuqueTitle"),
+            xuanwu: document.getElementById("xuanwuTitle"),
+        }
 
         // 失败容器
         const shibaiContainer = document.getElementById("shibaiResults");
@@ -190,6 +213,14 @@
                 xuanwu: { wuli: [], fashu: [], fengyin: [], huifu: [], weizhi: [] },
             };
 
+            // 玩家数量
+            const playersCount = {
+                qinglong: 0,
+                baihu: 0,
+                zhuque: 0,
+                xuanwu: 0,
+            };
+
             // 识别失败
             const shibaiArray = [];
 
@@ -197,13 +228,17 @@
             for (const character of characters) {
                 const [nickname, occupationCode, factionCode] = getPlayer(character);
                 // 识别到阵营代码
-                if (factionCode) players[factionCode][occupationCode].push(nickname);
+                if (factionCode) {
+                    players[factionCode][occupationCode].push(nickname);
+                    playersCount[factionCode]++;
+                }
                 // 未识别到阵营代码
                 else shibaiArray.push(character);
             }
 
             // 显示成功结果
             for (const factionCode in factionContainers) {
+                const title = factionTitles[factionCode];
                 const container = factionContainers[factionCode];
                 let display = 'none';
 
@@ -213,6 +248,7 @@
                         displayResults(container, players[factionCode][occupationCode], occupationCode);
                     }
                 }
+                title.textContent = mapFactionName[factionCode] + '阵营 ' + playersCount[factionCode] + '人';
                 container.parentNode.style.display = display;
             }
 
@@ -281,14 +317,6 @@
                 container.appendChild(characterElement);
             });
         }
-
-        const mapOccupationName = {
-            wuli: "物理",
-            fashu: "法术",
-            fengyin: "封印",
-            huifu: "回复",
-            weizhi: "未知",
-        };
     </script>
 </body>
 
